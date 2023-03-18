@@ -1,51 +1,47 @@
+using Unity.Mathematics;
 using UnityEngine;
 
 namespace Surfaces
 {
 	public class BezierSurfaceDrawer : MonoBehaviour
 	{
-		public Transform P1;
-		public Transform P2;
-		public Transform P3;
-		public Transform P4;
-		public int SampleAmount = 100;
+		public Transform[] Points;
+		public int SampleAmountT = 100;
+		public int SampleAmountS = 100;
+
 		public Color DrawColor = Color.yellow;
+
+		float3 GetPos(Transform tf)
+		{
+			return tf.position;
+		}
 
 		void Update()
 		{
-			if (SampleAmount <= 0)
+			if (SampleAmountT <= 0 || SampleAmountS <= 0)
 			{
 				Debug.LogError("SampleAmount should be positive.");
 				return;
 			}
 
-			var surface = new BezierSurface(
-				P1.transform.position,
-				P2.transform.position,
-				P3.transform.position,
-				P4.transform.position);
+			var points = new float3[4][];
+			points[0] = new float3[4] { GetPos(Points[0]), GetPos(Points[1]), GetPos(Points[2]), GetPos(Points[3]) };
+			points[1] = new float3[4] { GetPos(Points[4]), GetPos(Points[5]), GetPos(Points[6]), GetPos(Points[7]) };
+			points[2] = new float3[4] { GetPos(Points[8]), GetPos(Points[9]), GetPos(Points[10]), GetPos(Points[11]) };
+			points[3] = new float3[4] { GetPos(Points[12]), GetPos(Points[13]), GetPos(Points[14]), GetPos(Points[15]) };
 
-			var previousPoint = surface.SamplePoint(0f, 0f);
+			var surface = new BezierSurface16(points);
 
-			for (float t = 0f; t <= 1f; t += 1f / SampleAmount)
+			var deltaS = 1f / SampleAmountS;
+			var deltaT = 1f / SampleAmountT;
+
+			for (float t = 0f; t <= 1f; t += deltaT)
+			for (float s = 0f; s <= 1f; s += deltaS)
 			{
-				for (float s = 0f; s <= 1f; s += 1f / SampleAmount)
-				{
-					// Debug.Log($"SamplePoint s: {s}, t: {t}");
-
-					var point = surface.SamplePoint(s, t);
-
-					Debug.DrawLine(previousPoint, point, DrawColor);
-
-					previousPoint = point;
-				}
-
-				Debug.DrawLine(previousPoint, surface.SamplePoint(1f, t), DrawColor);
-
-				//Debug.Log($"SamplePoint s: {1f}, t: {t}");
+				var current = surface.SamplePoint(s, t);
+				var next = surface.SamplePoint(math.min(s + deltaS, 1f), t);
+				Debug.DrawLine(current, next, DrawColor);
 			}
-
-			Debug.DrawLine(previousPoint, surface.SamplePoint(1f, 1f), DrawColor);
 
 			Debug.Log("Drawing");
 		}

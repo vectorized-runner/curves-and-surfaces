@@ -1,5 +1,5 @@
 {
-    "name": "Curves",
+    "name": "Code",
     "rootNamespace": "",
     "references": [
         "Unity.Mathematics"
