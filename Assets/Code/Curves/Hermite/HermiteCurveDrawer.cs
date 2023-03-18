@@ -33,6 +33,8 @@ namespace Curves
 
 				previousPoint = point;
 			}
+			
+			Debug.DrawLine(previousPoint, curve.SamplePoint(1f), DrawColor);
 
 			Debug.Log("Drawing");
 		}
