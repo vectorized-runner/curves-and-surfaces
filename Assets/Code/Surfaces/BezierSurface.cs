@@ -23,7 +23,7 @@ namespace Surfaces
 			Debug.Assert(s >= 0f && s <= 1f);
 			Debug.Assert(t >= 0f && t <= 1f);
 
-			var points4 = new float3[] { P1, P2, P3, P4 };
+			var points4 = new[] { P1, P2, P3, P4 };
 			var result = float3.zero;
 
 			for (int i = 0; i <= 3; i++)

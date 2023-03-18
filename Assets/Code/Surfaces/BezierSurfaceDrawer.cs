@@ -31,20 +31,19 @@ namespace Surfaces
 			{
 				for (float s = 0f; s <= 1f; s += 1f / SampleAmount)
 				{
-					Debug.Log($"SamplePoint s: {s}, t: {t}");
-				
+					// Debug.Log($"SamplePoint s: {s}, t: {t}");
+
 					var point = surface.SamplePoint(s, t);
 
 					Debug.DrawLine(previousPoint, point, DrawColor);
 
 					previousPoint = point;
 				}
-				
-				Debug.DrawLine(previousPoint, surface.SamplePoint(1f, t), DrawColor);
-				
-				Debug.Log($"SamplePoint s: {1f}, t: {t}");
-			}
 
+				Debug.DrawLine(previousPoint, surface.SamplePoint(1f, t), DrawColor);
+
+				//Debug.Log($"SamplePoint s: {1f}, t: {t}");
+			}
 
 			Debug.DrawLine(previousPoint, surface.SamplePoint(1f, 1f), DrawColor);
 
