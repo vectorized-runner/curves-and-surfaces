@@ -11,6 +11,12 @@ namespace Curves
 
 		void Update()
 		{
+			if (SampleAmount <= 0)
+			{
+				Debug.LogError("SampleAmount should be positive.");
+				return;
+			}
+			
 			var curve = new HermiteCurve(
 				P1.transform.position,
 				P4.transform.position,

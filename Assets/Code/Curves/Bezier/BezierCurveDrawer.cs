@@ -13,6 +13,12 @@ namespace Curves
 
 		void Update()
 		{
+			if (SampleAmount <= 0)
+			{
+				Debug.LogError("SampleAmount should be positive.");
+				return;
+			}
+			
 			var curve = new BezierCurve(
 				P1.transform.position,
 				P2.transform.position,
